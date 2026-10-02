@@ -563,3 +563,26 @@ footer {
     padding: 24px 0;
   }
 }
+.software-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.software-card-link:hover {
+  transform: translateY(-2px);
+  border-color: #c3d2dc;
+  box-shadow: 0 12px 28px rgba(31, 58, 76, 0.08);
+}
+
+.software-link-label {
+  display: inline-block;
+  margin-top: 18px;
+  color: var(--accent);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
