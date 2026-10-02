@@ -220,12 +220,11 @@
         </article>
 
         <figure class="research-figure">
-          <a
-            class="research-figure-link"
-            href="/assets/vertical-orbit-families.png"
-            target="_blank"
-            rel="noopener"
-            aria-label="Open full-resolution Earth–Moon vertical-orbit family figure"
+          <button
+            class="research-figure-button"
+            id="openResearchLightbox"
+            type="button"
+            aria-label="Enlarge Earth–Moon vertical-orbit family figure"
           >
             <img
               src="/assets/vertical-orbit-families.png"
@@ -233,7 +232,7 @@
               loading="lazy"
               decoding="async"
             >
-          </a>
+          </button>
 
           <figcaption>
             High-fidelity Earth–Moon vertical-orbit families generated across
@@ -408,5 +407,74 @@
       </div>
     </div>
   </footer>
+
+  <div
+    class="lightbox"
+    id="researchLightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Expanded Earth–Moon vertical-orbit family figure"
+    aria-hidden="true"
+  >
+    <button
+      class="lightbox-close"
+      id="closeResearchLightbox"
+      type="button"
+      aria-label="Close expanded figure"
+    >
+      ×
+    </button>
+
+    <div class="lightbox-content">
+      <img
+        src="/assets/vertical-orbit-families.png"
+        alt="Earth–Moon L1 and L2 vertical-orbit families shown in x-z and y-z projections"
+      >
+      <p class="lightbox-caption">
+        High-fidelity Earth–Moon vertical-orbit families generated across
+        the L<sub>1</sub> and L<sub>2</sub> regions.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const openButton = document.getElementById("openResearchLightbox");
+      const lightbox = document.getElementById("researchLightbox");
+      const closeButton = document.getElementById("closeResearchLightbox");
+
+      if (!openButton || !lightbox || !closeButton) return;
+
+      const openLightbox = () => {
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.classList.add("lightbox-open");
+        closeButton.focus();
+      };
+
+      const closeLightbox = () => {
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("lightbox-open");
+        openButton.focus();
+      };
+
+      openButton.addEventListener("click", openLightbox);
+      closeButton.addEventListener("click", closeLightbox);
+
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) {
+          closeLightbox();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
+          closeLightbox();
+        }
+      });
+    })();
+  </script>
+
 </body>
 </html>
