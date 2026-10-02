@@ -23,7 +23,10 @@
 
   <!-- Social sharing -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Derek Phung | Aerospace Engineering & Astrodynamics">
+  <meta
+    property="og:title"
+    content="Derek Phung | Aerospace Engineering & Astrodynamics"
+  >
   <meta
     property="og:description"
     content="Research in cislunar astrodynamics, high-fidelity trajectory design, optimization, and spacecraft guidance and control."
@@ -283,7 +286,8 @@
           </div>
 
           <p class="section-summary">
-            Open-source astrodynamics tools and research software.
+            Contributions to open-source astrodynamics software for
+            high-fidelity trajectory modeling, propagation, and analysis.
           </p>
         </div>
 
@@ -300,9 +304,10 @@
             <h3>HighFidelityEphemerisModel.jl</h3>
 
             <p>
-              High-fidelity spacecraft dynamics, ephemeris modeling,
-              Gauss variational equations, and SPICE-based workflows for
-              astrodynamics research.
+              Implemented Gauss variational equation propagation,
+              a Julia-native ephemeris backend, and SPICE kernel
+              generation workflows, and performed cross-validation
+              against independent propagators.
             </p>
 
             <span class="software-link-label">
@@ -322,9 +327,10 @@
             <h3>AstrodynamicsCore.jl</h3>
 
             <p>
-              Core astrodynamics utilities including orbital-element
-              representations, state conversions, and numerical tools
-              used by research workflows.
+              Added validation coverage for ordinary-equinoctial
+              element conversions, including six conversion paths,
+              representative orbit regimes, domain checks, and
+              generic-number support.
             </p>
 
             <span class="software-link-label">
@@ -408,6 +414,7 @@
     </div>
   </footer>
 
+  <!-- Research figure lightbox -->
   <div
     class="lightbox"
     id="researchLightbox"
@@ -430,6 +437,7 @@
         src="/assets/vertical-orbit-families.png"
         alt="Earth–Moon L1 and L2 vertical-orbit families shown in x-z and y-z projections"
       >
+
       <p class="lightbox-caption">
         High-fidelity Earth–Moon vertical-orbit families generated across
         the L<sub>1</sub> and L<sub>2</sub> regions.
@@ -469,12 +477,14 @@
       });
 
       document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
+        if (
+          event.key === "Escape" &&
+          lightbox.classList.contains("is-open")
+        ) {
           closeLightbox();
         }
       });
     })();
   </script>
-
 </body>
 </html>
