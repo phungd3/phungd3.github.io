@@ -8,9 +8,13 @@
 
   <meta
     name="description"
-    content="Derek Phung is an Aerospace Engineering undergraduate researcher at UC Irvine working on cislunar astrodynamics, high-fidelity trajectory design, optimization, and spacecraft guidance and control."
+    content="Derek Phung is an aerospace engineering undergraduate researcher at UC Irvine working on cislunar astrodynamics, trajectory optimization, and spacecraft GNC."
   >
   <meta name="author" content="Derek Phung">
+  <meta
+    name="robots"
+    content="max-image-preview:large, max-snippet:-1"
+  >
   <meta name="theme-color" content="#0b3b73">
 
   <link rel="canonical" href="https://derekphung.com/">
@@ -23,25 +27,28 @@
 
   <!-- Open Graph / social sharing -->
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Derek Phung">
   <meta
     property="og:title"
     content="Derek Phung | Aerospace Engineering & Astrodynamics"
   >
   <meta
     property="og:description"
-    content="Research in cislunar astrodynamics, high-fidelity trajectory design, optimization, and spacecraft guidance and control."
+    content="Cislunar astrodynamics, high-fidelity trajectory design, optimization, and spacecraft guidance, navigation, and control."
   >
   <meta property="og:url" content="https://derekphung.com/">
-  <meta property="og:site_name" content="Derek Phung">
   <meta property="og:image" content="https://derekphung.com/assets/og-image.png">
+  <meta property="og:image:secure_url" content="https://derekphung.com/assets/og-image.png">
+  <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta
     property="og:image:alt"
-    content="Derek Phung academic website banner with a stylized cislunar vertical orbit"
+    content="Derek Phung academic website banner with a stylized Earth–Moon vertical orbit"
   >
 
-  <!-- Twitter card -->
+  <!-- Twitter / X card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta
     name="twitter:title"
@@ -49,12 +56,12 @@
   >
   <meta
     name="twitter:description"
-    content="Research in cislunar astrodynamics, high-fidelity trajectory design, optimization, and spacecraft guidance and control."
+    content="Cislunar astrodynamics, high-fidelity trajectory design, optimization, and spacecraft guidance, navigation, and control."
   >
   <meta name="twitter:image" content="https://derekphung.com/assets/og-image.png">
   <meta
     name="twitter:image:alt"
-    content="Derek Phung academic website banner with a stylized cislunar vertical orbit"
+    content="Derek Phung academic website banner with a stylized Earth–Moon vertical orbit"
   >
 
   <!-- Fonts -->
@@ -71,24 +78,41 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Derek Phung",
-    "url": "https://derekphung.com/",
-    "sameAs": [
-      "https://github.com/phungd3",
-      "https://www.linkedin.com/in/phungd3"
-    ],
-    "affiliation": {
-      "@type": "CollegeOrUniversity",
-      "name": "University of California, Irvine"
-    },
-    "jobTitle": "Undergraduate Researcher",
-    "knowsAbout": [
-      "Astrodynamics",
-      "Cislunar Space",
-      "Trajectory Optimization",
-      "Spacecraft Guidance and Control",
-      "High-Fidelity Dynamics"
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://derekphung.com/#person",
+        "name": "Derek Phung",
+        "url": "https://derekphung.com/",
+        "description": "Aerospace engineering undergraduate researcher at UC Irvine working on cislunar astrodynamics, high-fidelity trajectory design, optimization, and spacecraft guidance, navigation, and control.",
+        "sameAs": [
+          "https://github.com/phungd3",
+          "https://www.linkedin.com/in/phungd3"
+        ],
+        "affiliation": {
+          "@type": "CollegeOrUniversity",
+          "name": "University of California, Irvine"
+        },
+        "jobTitle": "Undergraduate Researcher",
+        "knowsAbout": [
+          "Astrodynamics",
+          "Cislunar Space",
+          "High-Fidelity Trajectory Design",
+          "Trajectory Optimization",
+          "Spacecraft Guidance, Navigation, and Control",
+          "Scientific Computing"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://derekphung.com/#website",
+        "url": "https://derekphung.com/",
+        "name": "Derek Phung",
+        "description": "Academic website of Derek Phung, an aerospace engineering undergraduate researcher at UC Irvine.",
+        "about": {
+          "@id": "https://derekphung.com/#person"
+        }
+      }
     ]
   }
   </script>
@@ -119,7 +143,7 @@
           <p class="lede">
             Undergraduate researcher working on cislunar astrodynamics,
             high-fidelity trajectory design, optimization, and spacecraft
-            guidance and control.
+            guidance, navigation, and control.
           </p>
 
           <div class="hero-actions">
