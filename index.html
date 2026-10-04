@@ -123,7 +123,17 @@
     <div class="container nav">
       <a class="wordmark" href="#top">Derek Phung</a>
 
-      <nav aria-label="Primary navigation">
+      <button
+        class="nav-toggle"
+        id="navToggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="primaryNav"
+      >
+        Menu
+      </button>
+
+      <nav class="nav-links" id="primaryNav" aria-label="Primary navigation">
         <a href="#research">Research</a>
         <a href="#publications">Publications</a>
         <a href="#software">Software</a>
@@ -447,6 +457,13 @@
             loading="lazy"
             hidden
           ></iframe>
+
+          <div
+            class="cv-mobile-pages"
+            id="cvMobilePages"
+            aria-label="Derek Phung CV pages"
+            hidden
+          ></div>
         </div>
       </div>
     </section>
@@ -542,25 +559,157 @@
 
   <script>
     (() => {
+      const toggle = document.getElementById("navToggle");
+      const nav = document.getElementById("primaryNav");
+
+      if (!toggle || !nav) return;
+
+      const closeMenu = () => {
+        nav.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+      };
+
+      toggle.addEventListener("click", () => {
+        const open = nav.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(open));
+      });
+
+      nav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", closeMenu);
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeMenu();
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 720) {
+          closeMenu();
+        }
+      });
+    })();
+  </script>
+
+  <script type="module">
+    (() => {
       const pdfPath = "/assets/Derek_Phung_CV.pdf";
       const viewer = document.getElementById("cvViewer");
+      const mobilePages = document.getElementById("cvMobilePages");
       const placeholder = document.getElementById("cvPlaceholder");
       const download = document.getElementById("cvDownload");
+      const mobileQuery = window.matchMedia("(max-width: 720px)");
 
-      if (!viewer || !placeholder || !download) return;
+      if (!viewer || !mobilePages || !placeholder || !download) return;
+
+      let pdfExists = false;
+      let mobileRendered = false;
+
+      const showDesktopViewer = () => {
+        mobilePages.hidden = true;
+        viewer.hidden = false;
+
+        if (!viewer.src) {
+          viewer.src = `${pdfPath}#view=FitH`;
+        }
+      };
+
+      const renderMobileViewer = async () => {
+        viewer.hidden = true;
+        mobilePages.hidden = false;
+
+        if (mobileRendered) return;
+
+        mobilePages.innerHTML =
+          '<p class="cv-loading">Rendering CV…</p>';
+
+        try {
+          const pdfjsLib = await import(
+            "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs"
+          );
+
+          pdfjsLib.GlobalWorkerOptions.workerSrc =
+            "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
+
+          const pdf = await pdfjsLib.getDocument(pdfPath).promise;
+          mobilePages.innerHTML = "";
+
+          const availableWidth = mobilePages.clientWidth;
+          const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+
+          for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+            const page = await pdf.getPage(pageNumber);
+            const baseViewport = page.getViewport({ scale: 1 });
+            const scale = availableWidth / baseViewport.width;
+            const viewport = page.getViewport({ scale });
+
+            const pageWrap = document.createElement("div");
+            pageWrap.className = "cv-mobile-page";
+
+            const canvas = document.createElement("canvas");
+            canvas.setAttribute("aria-label", `CV page ${pageNumber}`);
+
+            canvas.width = Math.floor(viewport.width * pixelRatio);
+            canvas.height = Math.floor(viewport.height * pixelRatio);
+            canvas.style.width = `${viewport.width}px`;
+            canvas.style.height = `${viewport.height}px`;
+
+            const context = canvas.getContext("2d");
+            context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+            pageWrap.appendChild(canvas);
+            mobilePages.appendChild(pageWrap);
+
+            await page.render({
+              canvasContext: context,
+              viewport
+            }).promise;
+          }
+
+          mobileRendered = true;
+        } catch (error) {
+          mobilePages.innerHTML = `
+            <div class="cv-mobile-fallback">
+              <p>The mobile CV preview could not be rendered.</p>
+              <a href="${pdfPath}" download="Derek_Phung_CV.pdf">
+                Download the PDF
+              </a>
+            </div>
+          `;
+        }
+      };
+
+      const updateCvLayout = () => {
+        if (!pdfExists) return;
+
+        if (mobileQuery.matches) {
+          renderMobileViewer();
+        } else {
+          showDesktopViewer();
+        }
+      };
 
       fetch(pdfPath, { method: "HEAD", cache: "no-store" })
         .then((response) => {
           if (!response.ok) return;
 
-          viewer.src = `${pdfPath}#view=FitH`;
-          viewer.hidden = false;
+          pdfExists = true;
           placeholder.hidden = true;
           download.hidden = false;
+          updateCvLayout();
         })
         .catch(() => {
           // Keep the placeholder visible until the PDF is uploaded.
         });
+
+      mobileQuery.addEventListener("change", updateCvLayout);
     })();
   </script>
 
