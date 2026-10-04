@@ -64,25 +64,35 @@ a {
   letter-spacing: -0.025em;
 }
 
-nav {
+.nav-links {
   display: flex;
   align-items: center;
   gap: 28px;
   font-size: 0.9rem;
 }
 
-nav a {
+.nav-links a {
   color: var(--muted);
   text-decoration: none;
   transition: color 140ms ease;
 }
 
-nav a:hover {
+.nav-links a:hover {
   color: var(--text);
 }
 
-.nav-external {
-  color: var(--accent);
+.nav-toggle {
+  display: none;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
 }
 
 .hero {
@@ -509,10 +519,6 @@ footer {
     min-height: 62px;
   }
 
-  nav a:not(.nav-external) {
-    display: none;
-  }
-
   .hero {
     padding: 72px 0 66px;
   }
@@ -803,6 +809,10 @@ body.lightbox-open {
   background: #525659;
 }
 
+.cv-mobile-pages {
+  display: none;
+}
+
 .cv-placeholder {
   display: grid;
   min-height: 360px;
@@ -818,23 +828,204 @@ body.lightbox-open {
 }
 
 .cv-viewer[hidden],
+.cv-mobile-pages[hidden],
 .cv-download[hidden],
 .cv-placeholder[hidden] {
   display: none !important;
 }
 
+/* Mobile polish */
 @media (max-width: 720px) {
-  .cv-viewer {
-    height: 72vh;
-    min-height: 520px;
+  .site-header {
+    overflow: visible;
+  }
+
+  .nav {
+    position: relative;
+    min-height: 62px;
+    gap: 16px;
+  }
+
+  .wordmark {
+    position: relative;
+    z-index: 22;
+  }
+
+  .nav-toggle {
+    position: relative;
+    z-index: 22;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-links {
+    position: absolute;
+    z-index: 21;
+    top: calc(100% + 8px);
+    right: 0;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 8px;
+    border: 1px solid rgba(201, 216, 226, 0.98);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 18px 42px rgba(27, 48, 65, 0.14);
+    backdrop-filter: blur(14px);
+  }
+
+  .nav-links.is-open {
+    display: flex;
+  }
+
+  .nav-links a {
+    padding: 9px 11px;
+    border-radius: 8px;
+    color: var(--text-soft);
+    font-size: 0.92rem;
+  }
+
+  .nav-links a:hover {
+    background: var(--surface-soft);
+    color: var(--text);
+  }
+
+  .hero {
+    padding: 62px 0 58px;
+  }
+
+  .hero-grid {
+    gap: 34px;
+  }
+
+  h1 {
+    font-size: clamp(3.2rem, 17vw, 4.85rem);
+  }
+
+  .lede {
+    font-size: 1.08rem;
+  }
+
+  .hero-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .button {
+    width: 100%;
+    padding-inline: 12px;
+  }
+
+  .intro-card {
+    padding: 22px;
+    border-radius: 15px;
+  }
+
+  .section {
+    padding: 58px 0;
+  }
+
+  .section-heading {
+    margin-bottom: 28px;
+  }
+
+  .research-main {
+    padding: 28px 24px 29px;
+  }
+
+  .research-details {
+    padding: 25px 24px;
+  }
+
+  .software-card {
+    min-height: 0;
+    padding: 24px;
+  }
+
+  .cv-actions {
+    margin: -5px 0 12px;
   }
 
   .cv-shell {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .cv-viewer {
+    display: none !important;
+  }
+
+  .cv-mobile-pages {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cv-mobile-page {
+    overflow: hidden;
+    width: 100%;
+    border: 1px solid #d5dde3;
+    border-radius: 7px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(31, 58, 76, 0.08);
+  }
+
+  .cv-mobile-page canvas {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    background: #fff;
+  }
+
+  .cv-loading,
+  .cv-mobile-fallback {
+    margin: 0;
+    padding: 28px 20px;
+    border: 1px solid #d5dde3;
     border-radius: 10px;
+    background: var(--surface);
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .cv-mobile-fallback p {
+    margin-bottom: 8px;
+  }
+
+  .cv-mobile-fallback a {
+    color: var(--accent);
+    font-weight: 600;
   }
 
   .cv-placeholder {
-    min-height: 260px;
+    min-height: 240px;
+    border: 1px solid #d5dde3;
+    border-radius: 10px;
+  }
+
+  .footer div {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-actions .button {
+    min-height: 43px;
+  }
+
+  .research-main h3 {
+    font-size: 1.65rem;
   }
 }
 
