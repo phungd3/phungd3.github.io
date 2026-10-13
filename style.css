@@ -282,6 +282,21 @@ h1 {
   color: var(--muted);
 }
 
+/* Keep section introductions visually attached to their headings on desktop. */
+@media (min-width: 901px) {
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+
+  .section-summary {
+    max-width: 680px;
+    margin: 0;
+  }
+}
+
 .research-card {
   overflow: hidden;
   display: grid;
