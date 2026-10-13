@@ -841,17 +841,52 @@ body.lightbox-open {
   box-shadow: 0 12px 30px rgba(31, 58, 76, 0.06);
 }
 
-.cv-viewer {
-  display: block;
+.cv-pages {
+  display: flex;
   width: 100%;
   height: 82vh;
   min-height: 780px;
-  border: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  overflow-y: auto;
+  padding: 22px;
   background: #525659;
 }
 
-.cv-mobile-pages {
-  display: none;
+.cv-page {
+  overflow: hidden;
+  width: min(100%, 900px);
+  flex: 0 0 auto;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.cv-page canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  background: #fff;
+}
+
+.cv-loading,
+.cv-fallback {
+  width: min(100%, 900px);
+  margin: 0;
+  padding: 28px 20px;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+  text-align: center;
+}
+
+.cv-fallback p {
+  margin-bottom: 8px;
+}
+
+.cv-fallback a {
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .cv-placeholder {
@@ -868,8 +903,7 @@ body.lightbox-open {
   margin: 0;
 }
 
-.cv-viewer[hidden],
-.cv-mobile-pages[hidden],
+.cv-pages[hidden],
 .cv-download[hidden],
 .cv-placeholder[hidden] {
   display: none !important;
@@ -998,51 +1032,26 @@ body.lightbox-open {
     box-shadow: none;
   }
 
-  .cv-viewer {
-    display: none !important;
-  }
-
-  .cv-mobile-pages {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  .cv-pages {
+    height: auto;
+    min-height: 0;
     gap: 14px;
+    overflow: visible;
+    padding: 0;
+    background: transparent;
   }
 
-  .cv-mobile-page {
-    overflow: hidden;
+  .cv-page {
     width: 100%;
     border: 1px solid #d5dde3;
     border-radius: 7px;
-    background: #fff;
     box-shadow: 0 8px 24px rgba(31, 58, 76, 0.08);
   }
 
-  .cv-mobile-page canvas {
-    display: block;
-    width: 100% !important;
-    height: auto !important;
-    background: #fff;
-  }
-
   .cv-loading,
-  .cv-mobile-fallback {
-    margin: 0;
-    padding: 28px 20px;
+  .cv-fallback {
+    width: 100%;
     border: 1px solid #d5dde3;
-    border-radius: 10px;
-    background: var(--surface);
-    color: var(--muted);
-    text-align: center;
-  }
-
-  .cv-mobile-fallback p {
-    margin-bottom: 8px;
-  }
-
-  .cv-mobile-fallback a {
-    color: var(--accent);
-    font-weight: 600;
   }
 
   .cv-placeholder {
