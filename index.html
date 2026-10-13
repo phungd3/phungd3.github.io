@@ -482,9 +482,17 @@
             <p>CV PDF will appear here once uploaded.</p>
           </div>
 
+          <iframe
+            class="cv-viewer"
+            id="cvViewer"
+            title="Derek Phung CV"
+            loading="lazy"
+            hidden
+          ></iframe>
+
           <div
-            class="cv-pages"
-            id="cvPages"
+            class="cv-mobile-pages"
+            id="cvMobilePages"
             aria-label="Derek Phung CV pages"
             hidden
           ></div>
@@ -625,15 +633,34 @@
   <script type="module">
     (() => {
       const pdfPath = "/assets/Derek_Phung_CV.pdf";
-      const pages = document.getElementById("cvPages");
+      const viewer = document.getElementById("cvViewer");
+      const mobilePages = document.getElementById("cvMobilePages");
       const placeholder = document.getElementById("cvPlaceholder");
       const download = document.getElementById("cvDownload");
+      const mobileQuery = window.matchMedia("(max-width: 720px)");
 
-      if (!pages || !placeholder || !download) return;
+      if (!viewer || !mobilePages || !placeholder || !download) return;
 
-      const renderCv = async () => {
-        pages.hidden = false;
-        pages.innerHTML = '<p class="cv-loading">Rendering CV…</p>';
+      let pdfExists = false;
+      let mobileRendered = false;
+
+      const showDesktopViewer = () => {
+        mobilePages.hidden = true;
+        viewer.hidden = false;
+
+        if (!viewer.src) {
+          viewer.src = `${pdfPath}#view=FitH`;
+        }
+      };
+
+      const renderMobileViewer = async () => {
+        viewer.hidden = true;
+        mobilePages.hidden = false;
+
+        if (mobileRendered) return;
+
+        mobilePages.innerHTML =
+          '<p class="cv-loading">Rendering CV…</p>';
 
         try {
           const pdfjsLib = await import(
@@ -644,23 +671,19 @@
             "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
 
           const pdf = await pdfjsLib.getDocument(pdfPath).promise;
-          pages.innerHTML = "";
+          mobilePages.innerHTML = "";
 
-          const isMobile = window.matchMedia("(max-width: 720px)").matches;
-          const availableWidth = pages.clientWidth;
-          const targetWidth = isMobile
-            ? availableWidth
-            : Math.min(900, Math.max(1, availableWidth - 44));
+          const availableWidth = mobilePages.clientWidth;
           const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
 
           for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
             const page = await pdf.getPage(pageNumber);
             const baseViewport = page.getViewport({ scale: 1 });
-            const scale = targetWidth / baseViewport.width;
+            const scale = availableWidth / baseViewport.width;
             const viewport = page.getViewport({ scale });
 
             const pageWrap = document.createElement("div");
-            pageWrap.className = "cv-page";
+            pageWrap.className = "cv-mobile-page";
 
             const canvas = document.createElement("canvas");
             canvas.setAttribute("aria-label", `CV page ${pageNumber}`);
@@ -674,17 +697,19 @@
             context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
             pageWrap.appendChild(canvas);
-            pages.appendChild(pageWrap);
+            mobilePages.appendChild(pageWrap);
 
             await page.render({
               canvasContext: context,
               viewport
             }).promise;
           }
+
+          mobileRendered = true;
         } catch (error) {
-          pages.innerHTML = `
-            <div class="cv-fallback">
-              <p>The CV preview could not be rendered.</p>
+          mobilePages.innerHTML = `
+            <div class="cv-mobile-fallback">
+              <p>The mobile CV preview could not be rendered.</p>
               <a href="${pdfPath}" download="Derek_Phung_CV.pdf">
                 Download the PDF
               </a>
@@ -693,17 +718,30 @@
         }
       };
 
+      const updateCvLayout = () => {
+        if (!pdfExists) return;
+
+        if (mobileQuery.matches) {
+          renderMobileViewer();
+        } else {
+          showDesktopViewer();
+        }
+      };
+
       fetch(pdfPath, { method: "HEAD", cache: "no-store" })
         .then((response) => {
           if (!response.ok) return;
 
+          pdfExists = true;
           placeholder.hidden = true;
           download.hidden = false;
-          renderCv();
+          updateCvLayout();
         })
         .catch(() => {
           // Keep the placeholder visible until the PDF is uploaded.
         });
+
+      mobileQuery.addEventListener("change", updateCvLayout);
     })();
   </script>
 
