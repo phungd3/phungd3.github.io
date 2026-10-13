@@ -329,6 +329,26 @@ h1 {
   font-size: 0.92rem;
 }
 
+.publication-profile-note {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.publication-profile-note a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 140ms ease;
+}
+
+.publication-profile-note a:hover {
+  color: var(--accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .publication {
   display: grid;
   grid-template-columns: 100px minmax(0, 1fr);
