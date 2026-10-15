@@ -1085,3 +1085,18 @@ body.lightbox-open {
   }
 }
 
+/* Subtle inline links for research affiliations and collaborators. */
+.context-link {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: rgba(47, 99, 131, 0.32);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 140ms ease, text-decoration-color 140ms ease;
+}
+
+.context-link:hover {
+  color: var(--accent-dark);
+  text-decoration-color: currentColor;
+}
+
