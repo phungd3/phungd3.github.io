@@ -95,6 +95,88 @@ a {
   font-weight: 600;
 }
 
+/* Understated conference-acceptance announcement. */
+.news-strip {
+  border-bottom: 1px solid #d4e3ec;
+  background: #eaf2f7;
+}
+
+.news-strip-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 66px;
+  padding-block: 13px;
+}
+
+.news-pill {
+  flex: 0 0 auto;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--accent-dark);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.085em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.news-date {
+  flex: 0 0 auto;
+  color: var(--accent-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.news-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.news-copy strong {
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.news-link {
+  flex: 0 0 auto;
+  color: var(--accent-dark);
+  font-size: 0.83rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.news-link:hover,
+.news-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .news-strip-inner {
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 6px;
+    padding-block: 14px;
+  }
+
+  .news-copy {
+    order: 2;
+    flex-basis: 100%;
+  }
+
+  .news-link {
+    order: 3;
+  }
+}
+
 .hero {
   padding: 96px 0 86px;
   border-bottom: 1px solid var(--line);
